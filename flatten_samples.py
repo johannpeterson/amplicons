@@ -1,4 +1,4 @@
-#! python3
+#!/usr/bin/python3
 """flatten_samples.py
 Script to take a 2-dimensional samples.tsv table and convert to
 a table with columns fwd_primer, rev_primer, sample.

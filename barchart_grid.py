@@ -1,4 +1,4 @@
-#! python3
+#!/usr/bin/python3
 """barchart_grid
 
 A stand-alone script to generate the grid of bar charts for amplicon barcodes.

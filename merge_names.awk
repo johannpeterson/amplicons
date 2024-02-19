@@ -1,4 +1,4 @@
-#! awk -f
+#!/usr/bin/awk -f
 
 # merge_names
 # awk script to choose forward or reverse-complement primers & barcodes

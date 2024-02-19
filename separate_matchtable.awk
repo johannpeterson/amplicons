@@ -1,4 +1,4 @@
-#! awk -f
+#!/usr/bin/awk -f
 
 BEGIN {
     if (! FILE_FWD) {

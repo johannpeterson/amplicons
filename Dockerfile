@@ -14,11 +14,9 @@ LABEL description="Tools for amplicon analysis used by Nijhawan Lab, UTSW"
 ENV BIO_USER      bio
 ENV BIO_GROUP     bio
 ENV HOME_DIR      /home/bio
-# ENV JUPYTER_PORT  8888
 ENV DATA_DIR      $HOME_DIR/data
-ENV SOURCE_DIR    $HOME_DIR/source
 
-# required executables:
+# Required executables:
 # csvtk
 # flash2
 # separate_matchtable.awk
@@ -29,6 +27,7 @@ ENV SOURCE_DIR    $HOME_DIR/source
 # flatten_samples.py
 # barchart_grid.py
 
+# Required python modules:
 # argparse
 # os
 # sys
@@ -57,42 +56,10 @@ RUN apt-get update && apt upgrade -y && apt-get --quiet install -y \
     python3 \
     && rm -rf /var/lib/apt/lists/*
 
-# OR:
-# other libraries needed to build samtools:
-#   zlib1g-dev libncurses5-dev libncursesw5-dev libbz2-dev liblzma-dev \
-# Here:
-# - download samtools source
-# - ./configure
-# - make
-# - make install
-
 # COPY requirements.txt /home/bio/requirements.txt
 # RUN pip install --upgrade pip
 # RUN pip install -r /home/bio/requirements.txt
  
-# install NCBI datasets utility
-# WORKDIR /usr/bin
-# RUN ["curl", "-o", "datasets", "https://ftp.ncbi.nlm.nih.gov/pub/datasets/command-line/LATEST/linux-amd64/datasets"]
-# RUN ["chmod", "+x", "datasets"]
-
-# install seqkit
-# https://bioinf.shenwei.me/seqkit/
-# https://github.com/shenwei356/seqkit/releases/download/v0.14.0/seqkit_linux_amd64.tar.gz
-# RUN ["curl", "-L", "-o", \
-#     "seqkit.tar.gz", \
-#     "https://github.com/shenwei356/seqkit/releases/download/v0.14.0/seqkit_linux_amd64.tar.gz"]
-# RUN ["tar", "-xvf", "seqkit.tar.gz"]
-# RUN ["wget", "https://github.com/shenwei356/seqkit/releases/download/v0.16.1/seqkit_linux_amd64.tar.gz"]
-# RUN ["tar", "-xvf", "seqkit_linux_amd64.tar.gz"]
-
-# Jupyter notebook server port
-# EXPOSE $JUPYTER_PORT
-
-# RUN conda create -n bio -c bioconda \
-#     python=3.10
-# RUN conda install -c bioconda flash2
-# RUN conda install -c bioconda csvtk
-
 # flash2
 # https://github.com/dstreett/FLASH2/archive/refs/heads/master.zip
 WORKDIR /usr/bin
@@ -114,7 +81,10 @@ RUN ["tar", "-xvf", "csvtk_linux_arm64.tar.gz"]
 
 RUN echo "Building for ${BUILDARCH}"
 
-# RUN conda config --env --add channels bioconda
+COPY --chown=bio:bio Makefile $HOME_DIR/amplicons/
+COPY --chown=bio:bio *.py $HOME_DIR/amplicons/
+COPY --chown=bio:bio *.sh $HOME_DIR/amplicons/
+COPY --chown=bio:bio *.awk $HOME_DIR/amplicons/
 
 RUN groupadd $BIO_GROUP && \
     useradd --create-home --home-dir $HOME_DIR \
@@ -122,8 +92,8 @@ RUN groupadd $BIO_GROUP && \
     --groups sudo \
     $BIO_GROUP
 
-RUN mkdir $DATA_DIR && mkdir $SOURCE_DIR
-VOLUME $DATA_DIR $SOURCE_DIR
+RUN mkdir $DATA_DIR
+VOLUME $DATA_DIR
 
-# USER $BIO_USER
-# WORKDIR $HOME_DIR
+USER $BIO_USER
+WORKDIR $HOME_DIR

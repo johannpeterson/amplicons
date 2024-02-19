@@ -1,4 +1,4 @@
-#! python3
+#!/usr/bin/python3
 """Count matches for a list of regular expressions in a FASTQ file.
 
 count_regex.py takes as input a pattern_file, containing a python dict

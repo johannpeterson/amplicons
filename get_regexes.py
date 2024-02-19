@@ -1,4 +1,4 @@
-#! python3
+#!/usr/bin/python3
 """Extract regular expressions from a primers file.
 
 The primers file should contain four columns in tab-separated
