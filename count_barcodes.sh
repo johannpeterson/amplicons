@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 csvtk cut -t -f fwd_primer,rev_primer,barcode \
 	| csvtk sort -t -k fwd_primer,rev_primer,barcode \
 	| csvtk freq -t -f 1,2,3 \

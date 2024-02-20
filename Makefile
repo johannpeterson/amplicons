@@ -16,11 +16,11 @@ PRIMERS_FILE=./primers.txt
 SAMPLES_FILE=./$(PREFIX)_samples.tsv
 
 # executables
-SOURCEDIR=~/bio/amplicons
+SOURCEDIR=~/amplicons
 DESTDIR=./aligned
 GET_REGEXES=$(SOURCEDIR)/get_regexes.py
 COUNT_REGEX=$(SOURCEDIR)/count_regex.py
-JOIN_MATCHES=$(SOURCEDIR)/join_matches.sh # no longer used
+# JOIN_MATCHES=$(SOURCEDIR)/join_matches.sh # no longer used
 SEPARATE_MATCHTABLE=$(SOURCEDIR)/separate_matchtable.awk
 MERGE_NAMES=$(SOURCEDIR)/merge_names.awk
 COUNT_BARCODES=$(SOURCEDIR)/count_barcodes.sh
@@ -135,7 +135,7 @@ $(MATCHES) : $(MERGED_READS) $(PATTERNS) $(BARCODE_PATTERNS_FILE) $(COUNT_REGEX)
 ## matches: Compute regex matches using count_regex.py
 matches : $(MATCHES)
 
-$(BARCODE_TABLE) : $(MATCHES) $(JOIN_MATCHES) $(MERGE_NAMES)
+$(BARCODE_TABLE) : $(MATCHES) $(MERGE_NAMES)
 # join_matches.sh is reproduced here so we can use our filename variables easily
 # was: $(JOIN_MATCHES) < $(MATCHES) | $(MERGE_NAMES) -v FILTER=1 > $(BARCODE_TABLE)
 	csvtk join --left-join -t --fields "seq_fwd_1;seq_fwd_1" $(MATCHES) $(MATCHFILE_FWD) | \

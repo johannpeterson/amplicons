@@ -51,15 +51,12 @@ ENV DATA_DIR      $HOME_DIR/data
 
 # RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 RUN apt-get update && apt upgrade -y && apt-get --quiet install -y \
+    python3-pip git \
     time uuid-runtime curl unzip make \
     build-essential zlib1g-dev \
     python3 \
     && rm -rf /var/lib/apt/lists/*
 
-# COPY requirements.txt /home/bio/requirements.txt
-# RUN pip install --upgrade pip
-# RUN pip install -r /home/bio/requirements.txt
- 
 # flash2
 # https://github.com/dstreett/FLASH2/archive/refs/heads/master.zip
 WORKDIR /usr/bin
@@ -80,6 +77,18 @@ RUN ["curl", "-L", "-o", \
 RUN ["tar", "-xvf", "csvtk_linux_arm64.tar.gz"]
 
 RUN echo "Building for ${BUILDARCH}"
+
+# https://bootstrap.pypa.io/get-pip.py
+# RUN ["curl", "-L", "-o", \
+#      "https://bootstrap.pypa.io/get-pip.py", \
+#      "get-pip.py"]
+WORKDIR $HOME_DIR/amplicons
+# COPY --chown=bio:bio get-pip.py $HOME_DIR/amplicons/
+# RUN ["python3", "get-pip.py"]
+COPY requirements.txt $HOME_DIR/amplicons/requirements.txt
+RUN pip install --upgrade pip
+RUN pip install -r /home/bio/amplicons/requirements.txt
+RUN git clone --depth 1 https://github.com/johannpeterson/jpbio.git
 
 COPY --chown=bio:bio Makefile $HOME_DIR/amplicons/
 COPY --chown=bio:bio *.py $HOME_DIR/amplicons/
