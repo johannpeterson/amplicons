@@ -1,0 +1,17 @@
+
+nijhawanlab/amplicons docker container
+--------------------------------------
+This container is usualy started using the start.sh script.  That
+script sets the data directory (/home/bio/data) to the current
+directory from which it is run.  If the variable SOURCE_DIR is set,
+it will bind the container's directory /home/bio/extsource to that
+directory.  Otherwise it will bind /home/bio/extsource to the
+default value of $HOME/bio/amplicons.
+
+Once this container is started, copy the Makefile to the data
+directory and run:
+
+> cp amplicons/Makefile data/
+> cd data
+> make help
+>
