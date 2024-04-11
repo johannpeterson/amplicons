@@ -1,4 +1,4 @@
-.PHONY: settings help clean cleanall merge matches
+.PHONY: settings help clean cleanall merge matches excel
 .ONESHELL:
 SHELL=/bin/bash
 
