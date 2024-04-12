@@ -11,10 +11,13 @@ ARG VERSION=0.0.1
 LABEL version=$VERSION
 LABEL description="Tools for amplicon analysis used by Nijhawan Lab, UTSW"
 
-ENV BIO_USER      bio
-ENV BIO_GROUP     bio
-ENV HOME_DIR      /home/bio
-ENV DATA_DIR      $HOME_DIR/data
+ENV BIO_USER       bio
+ENV BIO_GROUP      bio
+ENV HOME_DIR       /home/bio
+ENV DATA_DIR       $HOME_DIR/data
+ENV SOURCE_DIR     $HOME_DIR/amplicons
+ENV EXT_SOURCE_DIR $HOME_DIR/extsource
+ENV EXT_SOURCE     false
 
 # Required executables:
 # csvtk
@@ -43,6 +46,7 @@ ENV DATA_DIR      $HOME_DIR/data
 # pandas
 
 # ENTRYPOINT ["jupyter", "notebook", "--allow-root", "--ip=0.0.0.0", "--no-browser"]
+ENTRYPOINT ["/bin/bash", "-l"]
 
 # The recommended way to install packages:
 # RUN apt-get update && apt-get install -y \
@@ -90,10 +94,17 @@ RUN pip install --upgrade pip
 RUN pip install -r /home/bio/amplicons/requirements.txt
 RUN git clone --depth 1 https://github.com/johannpeterson/jpbio.git
 
-COPY --chown=bio:bio Makefile $HOME_DIR/amplicons/
-COPY --chown=bio:bio *.py $HOME_DIR/amplicons/
-COPY --chown=bio:bio *.sh $HOME_DIR/amplicons/
-COPY --chown=bio:bio *.awk $HOME_DIR/amplicons/
+COPY --chown=bio:bio Makefile $SOURCE_DIR
+# $HOME_DIR/amplicons/
+COPY --chown=bio:bio *.py $SOURCE_DIR
+# $HOME_DIR/amplicons/
+COPY --chown=bio:bio *.sh $SOURCE_DIR
+# $HOME_DIR/amplicons/
+COPY --chown=bio:bio *.awk $SOURCE_DIR
+COPY --chown=bio:bio *.txt $SOURCE_DIR
+# $HOME_DIR/amplicons/
+
+RUN echo 'cat $SOURCE_DIR/HELLO.txt' > /etc/profile.d/welcome.sh
 
 RUN groupadd $BIO_GROUP && \
     useradd --create-home --home-dir $HOME_DIR \
@@ -103,6 +114,9 @@ RUN groupadd $BIO_GROUP && \
 
 RUN mkdir $DATA_DIR
 VOLUME $DATA_DIR
+
+RUN mkdir $EXT_SOURCE_DIR
+VOLUME $EXT_SOURCE_DIR
 
 USER $BIO_USER
 WORKDIR $HOME_DIR

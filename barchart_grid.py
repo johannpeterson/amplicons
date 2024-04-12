@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!python3
 """barchart_grid
 
 A stand-alone script to generate the grid of bar charts for amplicon barcodes.
@@ -82,7 +82,7 @@ def annotate(data, **kwargs):
     else:
         sample = ""
     # ic(sample)
-        
+
     ax = plt.gca()
     if sample in args.control:
         ax.set_facecolor('lightgrey')
@@ -151,7 +151,7 @@ def compute_sample_dict(data):
     ic(sample_dict)
     return sample_dict
 
-    
+
 # ----------------------------------------------------------
 # main
 # ----------------------------------------------------------
@@ -194,7 +194,7 @@ def main():
     output_columns = [c for c in full_column_list if c in input_column_set]
     #ic(fp_col_name, rp_col_name, sort_columns, group_columns, output_columns)
     column_types = {'barcode':'str', 'forward_primer':'category', 'reverse_primer':'category'}
-    
+
     sorted_counts = df.sort_values(['forward_primer','reverse_primer','count'], ascending=[True,True,False])
     ic(sorted_counts.head)
     top_n = sorted_counts.groupby(by=['forward_primer','reverse_primer']) \

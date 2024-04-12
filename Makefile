@@ -16,7 +16,12 @@ PRIMERS_FILE=./primers.txt
 SAMPLES_FILE=./$(PREFIX)_samples.tsv
 
 # executables
-SOURCEDIR=~/amplicons
+ifeq ($(EXT_SOURCE),true)
+     SOURCEDIR=$(EXT_SOURCE_DIR)
+else
+     SOURCEDIR=$(SOURCE_DIR)
+endif
+# SOURCEDIR=~/amplicons
 DESTDIR=./aligned
 GET_REGEXES=$(SOURCEDIR)/get_regexes.py
 COUNT_REGEX=$(SOURCEDIR)/count_regex.py
@@ -64,6 +69,7 @@ all : $(TOP_N_FILE) $(BARCHARTS)
 ## settings: show the values of variables
 settings :
 	@echo "PREFIX (experiment):" $(PREFIX)
+	@echo "use external source:" $(EXT_SOURCE)
 	@echo SOURCEDIR: $(SOURCEDIR)
 	@echo DESTDIR: $(DESTDIR)
 	@echo TOP_N: $(TOP_N)
