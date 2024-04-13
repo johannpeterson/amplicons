@@ -187,14 +187,9 @@ def main():
         inplace=True
     )
     ic(df.head)
-    #fp_col_name, = input_column_set.intersection({'forward_primer', 'fwd_primer'})
-    #rp_col_name, = input_column_set.intersection({'reverse_primer', 'rev_primer'})
-    #count_col_name, = input_column_set.intersection({'count', 'frequency'})
-    #sort_columns = [fp_col_name, rp_col_name, count_col_name]
-    #group_columns = [fp_col_name, rp_col_name]
     full_column_list = ['forward_primer', 'reverse_primer', 'sample', 'barcode', 'count']
     output_columns = [c for c in full_column_list if c in input_column_set]
-    #ic(fp_col_name, rp_col_name, sort_columns, group_columns, output_columns)
+
     column_types = {'barcode':'str', 'forward_primer':'category', 'reverse_primer':'category'}
 
     sorted_counts = df.sort_values(['forward_primer','reverse_primer','count'], ascending=[True,True,False])
