@@ -12,4 +12,5 @@ fi
 docker run -it \
        --mount type=bind,source="$(pwd)",target=/home/bio/data \
        --mount type=bind,source="$LOCAL_SOURCE_DIR",target=/home/bio/extsource \
+       -e "TERM=xterm-256color" \
        nijhawanlab/amplicons
