@@ -1,0 +1,3 @@
+[submodule "jpbio"]
+	path = jpbio
+	url = https://github.com/johannpeterson/jpbio.git
