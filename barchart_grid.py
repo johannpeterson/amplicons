@@ -1,4 +1,4 @@
-#!python3
+#!/usr/bin/python3
 """barchart_grid
 
 A stand-alone script to generate the grid of bar charts for amplicon barcodes.
@@ -75,13 +75,14 @@ def annotate(data, **kwargs):
     f = data.iloc[0]['forward_primer']
     r = data.iloc[0]['reverse_primer']
     n = data['count'].sum()
+    ic(data.head())
 
     sample_dict = kwargs.get('sample_dict')
     if sample_dict is not None:
         sample = sample_dict.get((f,r), "???")
     else:
         sample = ""
-    # ic(sample)
+    ic(sample)
 
     ax = plt.gca()
     if sample in args.control:
@@ -100,17 +101,18 @@ def make_plot_grid(data, sample_dict, expname="experiment"):
     """
     sns.set_style()
     sns.set_style("dark")
-    sns.set_context("paper")
+    sns.set_context("notebook", font_scale=0.9)
+    # sns.set_context("paper") # this seems to be problematic
     hist_grid = sns.FacetGrid(
         data,
         row='forward_primer',
         col='reverse_primer',
         height=2.5, aspect=1,
-        margin_titles=True,
+        # margin_titles=True,
         sharex=True,
         sharey=False
     )
-    hist_grid.fig.set_constrained_layout(True)
+    # hist_grid.fig.set_constrained_layout(True)
     hist_grid.map_dataframe(
         sns.barplot,
         x="count",
@@ -126,7 +128,7 @@ def make_plot_grid(data, sample_dict, expname="experiment"):
     hist_grid.set_xticklabels([])
     hist_grid.fig.suptitle(expname, fontsize=24)
     hist_grid.set_titles(col_template="{col_name}", row_template="{row_name}", size=18)
-    plt.subplots_adjust(top=0.85)
+    plt.subplots_adjust(top=0.9)
     return hist_grid
 
 
@@ -207,7 +209,8 @@ def main():
                  sep='\t', header=True, index=False)
     sample_dict = compute_sample_dict(sorted_counts)
     figure = make_plot_grid(top_n, sample_dict, expname=args.experiment)
-    figure.savefig(args.png, metadata=args.metadata)
+    figure.savefig(args.png, metadata=args.metadata, dpi=300)
+
 
 
 if __name__ == '__main__':
