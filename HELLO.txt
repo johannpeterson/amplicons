@@ -3,17 +3,35 @@ nijhawanlab/amplicons docker container
 --------------------------------------
 This container is usualy started using the start.sh script.  That
 script binds the data directory (/home/bio/data) in the container to
-the current directory from which it is run.  If the variable
-SOURCE_DIR is set, it will bind the container's directory
-/home/bio/extsource to that directory.  Otherwise it will bind
-/home/bio/extsource to the default value of $HOME/bio/amplicons.
+the current directory from which it is run.
 
 Once this container is started, copy the Makefile to the data
-directory and run:
+directory and run make.  E.g.,
 
 > cp amplicons/Makefile data/
 > cd data
 > make help
+> make all
 
-By default, the environment variable EXT_SOURCE is set to 'false' in
-the container.  The Makefile
+If the variable SROUCE_DIR is set when running start.sh, the script
+will bind the container's directory /home/bio/extsource to the
+directory specified in that variable.  Otherwise it will bind
+/home/bio/extsource to the default value of $HOME/bio/amplicons.  By
+default, the environment variable EXT_SOURCE is set to 'false' in
+the container.  The Makefile checks this variable to determine whether
+to use the container's local copy of the amplicon source, or the
+source directory on the host machine bound to /home/bio/extsource.
+you can check this setting by running `make settings`, and looking for
+the lines:
+
+> use external source: false
+> SOURCEDIR: /home/bio/amplicons
+
+or
+
+> use external source: true
+> SOURCEDIR: /home/bio/extsource
+
+near the top of the output.
+
+See: https://github.com/johannpeterson/amplicons

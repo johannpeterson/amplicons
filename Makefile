@@ -68,6 +68,9 @@ all : $(TOP_N_FILE) $(BARCHARTS)
 
 ## settings: show the values of variables
 settings :
+	@echo
+	@echo "Makefile Settings"
+	@echo "========================="
 	@echo "PREFIX (experiment):" $(PREFIX)
 	@echo "use external source:" $(EXT_SOURCE)
 	@echo SOURCEDIR: $(SOURCEDIR)
@@ -75,6 +78,7 @@ settings :
 	@echo TOP_N: $(TOP_N)
 	@echo
 	@echo Input
+	@echo "=========="
 	@echo R1_FILE: $(R1_FILE)
 	@echo R2_FILE: $(R2_FILE)
 	@echo BARCODE_PATTERNS_FILE: $(BARCODE_PATTERNS_FILE)
@@ -82,6 +86,7 @@ settings :
 	@echo SAMPLES_FILE: $(SAMPLES_FILE)
 	@echo
 	@echo Executables
+	@echo "=========="
 	@echo FLASH: $(FLASH)
 	@echo GET_REGEXES: $(GET_REGEXES)
 	@echo COUNT_REGEX: $(COUNT_REGEX)
@@ -92,6 +97,7 @@ settings :
 	@echo MAKE_BARCHART: $(MAKE_BARCHART)
 	@echo
 	@echo Output
+	@echo "=========="
 	@echo BARCHARTS: $(BARCHARTS)
 	@echo MERGED_READS: $(MERGED_READS)
 	@echo BARCODE_COUNTS_SAMPLES: $(BARCODE_COUNTS_SAMPLES)
@@ -99,6 +105,7 @@ settings :
 	@echo TOP_N_XLSX: $(TOP_N_XLSX)
 	@echo NEW_FASTQ: $(NEW_FASTQ)
 	@echo INTERMEDIATE_FILES: $(INTERMEDIATE_FILES)
+	@echo
 
 ## clean: remove intermediate files, leaving barchart.png and merged.fastq
 clean :
