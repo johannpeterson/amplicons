@@ -8,6 +8,12 @@ Build the Docker image, if not already built:
 ```bash
 docker build -t nijhawanlab/amplicons .
 ```
+
+or pull the image:
+```bash
+docker pull nijhawanlab/amplicons
+```
+
 Then, from the data directory containing the FASTQ files, start a
 Docker container using the `start.sh` script, or like this:
 ```bash
