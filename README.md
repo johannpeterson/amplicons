@@ -1,5 +1,8 @@
 # Files for analysis of amplicons
 
+## Requirements
+- [Docker](https://www.docker.com/products/docker-desktop/)
+
 ## Usage
 Build the Docker image, if not already built:
 ```bash
